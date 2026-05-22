@@ -1,0 +1,15 @@
+{
+  "name": "Transactions 3 API",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "api",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-json",
+        "humao.rest-client",
+        "mongodb.mongodb-vscode"
+      ]
+    }
+  }
+}
