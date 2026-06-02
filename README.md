@@ -116,6 +116,7 @@ These routes require a valid JWT token in the `Authorization` header.
 
 ```txt
 GET /api/auth/me
+GET /api/auth/users
 PATCH /api/auth/change-password
 POST /api/transactions
 GET /api/transactions
@@ -140,6 +141,7 @@ A user will look like this in MongoDB:
 {
   "_id": "mongodb-generated-id",
   "username": "admin",
+  "fullName": "Admin User",
   "passwordHash": "hashed-password-value",
   "role": "admin",
   "createdAt": "2026-05-17T00:00:00.000Z",
@@ -1143,6 +1145,7 @@ Use this JSON:
 ```json
 {
   "username": "maria",
+  "fullName": "Maria Garcia",
   "password": "hello123"
 }
 ```
@@ -1156,6 +1159,7 @@ Expected result:
   "user": {
     "id": "mongodb-id",
     "username": "maria",
+    "fullName": "Maria Garcia",
     "role": "user"
   }
 }

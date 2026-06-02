@@ -70,6 +70,10 @@ async function getTransactions(req, res) {
       }
     }
 
+    if (req.user.role !== "admin") {
+      filter.createdBy = req.user._id;
+    }
+
     const transactions = await Transaction.find(filter)
       .populate("createdBy", "username role")
       .sort({ date: -1, createdAt: -1 });
@@ -87,6 +91,10 @@ async function getTransactionById(req, res) {
 
     if (!transaction) {
       return res.status(404).json({ message: "transaction not found" });
+    }
+
+    if (req.user.role !== "admin" && transaction.createdBy._id.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "access denied" });
     }
 
     return res.json(transaction);

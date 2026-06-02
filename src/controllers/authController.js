@@ -22,10 +22,14 @@ function createToken(user) {
 
 async function register(req, res) {
   try {
-    const { username, password } = req.body;
+    const { username, fullName, password } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).json({ message: "username and password are required" });
+    if (!username || !fullName || !password) {
+      return res.status(400).json({ message: "username, fullName, and password are required" });
+    }
+
+    if (fullName.trim().length < 3) {
+      return res.status(400).json({ message: "fullName must be at least 3 characters long" });
     }
 
     if (password.length < 6) {
@@ -46,6 +50,7 @@ async function register(req, res) {
 
     const user = await User.create({
       username,
+      fullName,
       passwordHash,
       role: "user"
     });
@@ -58,6 +63,7 @@ async function register(req, res) {
       user: {
         id: user._id,
         username: user.username,
+        fullName: user.fullName,
         role: user.role
       }
     });
@@ -94,6 +100,7 @@ async function login(req, res) {
       user: {
         id: user._id,
         username: user.username,
+        fullName: user.fullName,
         role: user.role
       }
     });
@@ -107,9 +114,20 @@ async function getMe(req, res) {
     user: {
       id: req.user._id,
       username: req.user.username,
+      fullName: req.user.fullName,
       role: req.user.role
     }
   });
+}
+
+async function getUsers(req, res) {
+  try {
+    const users = await User.find().select("-passwordHash").sort({ createdAt: -1 });
+
+    return res.json(users);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 }
 
 async function changePassword(req, res) {
@@ -153,5 +171,6 @@ module.exports = {
   register,
   login,
   getMe,
+  getUsers,
   changePassword
 };

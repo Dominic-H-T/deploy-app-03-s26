@@ -27,4 +27,19 @@ async function requireAuth(req, res, next) {
   }
 }
 
-module.exports = requireAuth;
+function requireAdmin(req, res, next) {
+  if (!req.user) {
+    return res.status(500).json({ message: "authentication middleware must run first" });
+  }
+
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "access denied" });
+  }
+
+  return next();
+}
+
+module.exports = {
+  requireAuth,
+  requireAdmin
+};

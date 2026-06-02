@@ -10,6 +10,12 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       minlength: 3
     },
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 3
+    },
     passwordHash: {
       type: String,
       required: true

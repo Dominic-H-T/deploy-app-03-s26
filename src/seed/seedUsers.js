@@ -10,6 +10,7 @@ async function seedUsers() {
     await connectDB();
 
     const username = "admin";
+    const fullName = "Admin User";
     const plainPassword = "secret321";
 
     const existingAdmin = await User.findOne({ username });
@@ -24,6 +25,7 @@ async function seedUsers() {
 
     await User.create({
       username,
+      fullName,
       passwordHash,
       role: "admin"
     });
