@@ -8,6 +8,9 @@
     "dev": "nodemon src/server.js",
     "seed:users": "node src/seed/seedUsers.js"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
